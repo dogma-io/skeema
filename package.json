@@ -1,6 +1,6 @@
 {
   "name": "skeema",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JSON schema utilities",
   "main": "lib/index.js",
   "files": [
