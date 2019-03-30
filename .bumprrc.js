@@ -7,6 +7,7 @@ module.exports = {
   },
   features: {
     changelog: {enabled: true},
+    logging: {enabled: true},
     timezone: {enabled: true, zone: 'America/New_York'}
   },
   vcs: {
