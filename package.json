@@ -41,6 +41,7 @@
     "babel-core": "^7.0.0-0",
     "babel-jest": "24.5.0",
     "babel-preset-nodely": "0.4.1",
+    "bumpr": "2.3.1",
     "codecov": "3.2.0",
     "flow-bin": "0.95.1",
     "flow-typed": "2.5.1",

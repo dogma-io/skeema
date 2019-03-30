@@ -1,36 +1,13 @@
 language: node_js
-
 node_js:
-  - stable
-  - '8'
-  - '6'
-
+- stable
 sudo: false
-
-env:
-  global:
-    secure: fIHF1fmylJjtyf56WGKbJ6kMvWH3gOJ0lDRp1n2gB9mD9IKjbFB2alW336Ppcqy+KNu9HYQv26QfbL24ZSITua/1bChlwOtikOyBRN9nCC4Yg2BeFtCXa73TWrcZ5zZ95aNLHgGxuchT5mROvnO3JMsq1brGwwae+ZADctz/BC1LKNWu0eYFttwZepPnwbLLiidYNXfsvczqJhwhiQSR+Xis8LlHZZMwq6QX7aEMXQvUXfOWk/KfNnV86BIGXaca1rVsg1VvTObLMs0mxyJhn6JQIp2jQXPQ4/L4Sidz7xMtfbc8BQkoOsuxLgUr63TfD7kc1C9Uv086eHT36uigA6u0oC47htkisoBCAFuJhiSaVvODbtdDMmKUIACE7jxdh3Lni+dZJzpp5aAmP1Zlj+YrcX/4ZqomH2GIJ/yhNGbLYYdNvtvAHsn7FCwgWJVY/G8deKpYo8d7dlGXbzMGP0N33yo7CmoN6HCPZvPPlXqKhSKPaGmvqzes7weTIX7BGJM5m7XO1WkWj2JO4NAeT9+2ixoEfVNfhxIpR4/ASpBps88ioH8Siyb539knPGJWEN1ZirhjIatNH8xlFXS43/xWzS+YZMM4KctLXpfWO9vvENTC579aR3w0nfrTkpZHU42UNocHz569cT8z6OhuyLau4SiTKAmxQOhl5QXbm6s=
-
-before_install:
-  - npm install -g pr-bumper@^3.0.0
-
 install:
-  - yarn install
-
+- yarn install
 before_script:
-  - $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
-
+- yarn run bumpr check
 script:
-  - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-  - $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh
-
-deploy:
-  provider: npm
-  email: dogmaiobot@gmail.com
-  skip_cleanup: true
-  on:
-    all_branches: true
-    node: '8'
-    tags: true
-  api_key:
-    secure: AKJxHWxn1Jmb8DN/ZNR2avT1Ow+COolrcG5gub0VdgC3gsEn8aBQKfnoMIvrwG16tbkR+80NGc/Gh9SLIithC4biFpUbZCWNPejJG78xFVHNQWFJbRDlxin/UCv0CJoftpwBbCe20E3+GMH1WnwobapeF4oulDpW+056/jc3vO5aq7stl0gxm9A89yvbReqqt/4XOEyBSQxgJU9JC+R/0X4+wm5ItdxVe9O2Vve2r8RZ/aIDO97mjZ362PuFrQnb2K+wtVKevJR+0I8kNIyO6S3D7CbHrOf83exg6ogHk5fvwqcEVI/YZ6ZmmAaR6VYBK4g1GVgRyhBURyVpu9Cgb2NXQDlgRHXlT6lR61O8dBAlLSZi/SvyfHrInnEZS00HfYmEiMdVDf+ujIXUYjXy44ODZf14SiLJg8XMiph34ht/2KKq6hNizgEfGHbt/SQ9smrGkVsCQfKbj2vFGyflqwTSBeswPlJRFepz0gXNfGpuNMnr1UkxWnbrVEUVwC85WJ+KxC/attebCE/wk4CVgC912aiMQeS99xlL03Ue3k1w15dD/Q/RoE5dyu5p0tyrfYw/XICWVPTipZVDLDuI1fU1oRqvq9uU/0lahB/xo6GXZi2vYf7XrQIQ7HqgV/dUPsfbxsOu2fkkYSXuUtGj4oGt0q7QFuDoq+LXs2B/Cb4=
+- yarn test
+- yarn run bumpr bump
+after_success:
+- VERBOSE=1 yarn run bumpr publish
