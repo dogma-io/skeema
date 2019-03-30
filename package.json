@@ -1,0 +1,51 @@
+{
+  "name": "skeema",
+  "version": "0.0.0",
+  "description": "JSON schema utilities",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rm -rf ./lib && nodely -s ./src -o ./lib && yarn run gen-types",
+    "gen-types": "echo 'todo: generate Flow types'",
+    "postpublish": "codecov",
+    "prepublishOnly": "yarn run build",
+    "test": "yarn run build && flow && jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dogma-io/skeema.git"
+  },
+  "keywords": [
+    "compose",
+    "helper",
+    "helpers",
+    "javascript",
+    "js",
+    "json",
+    "schema",
+    "util",
+    "utility",
+    "utilities",
+    "utils",
+    "validator"
+  ],
+  "author": "Matthew Dahl <https://github.com/dogma-io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dogma-io/skeema/issues"
+  },
+  "homepage": "https://github.com/dogma-io/skeema#readme",
+  "devDependencies": {
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "24.5.0",
+    "babel-preset-nodely": "0.4.1",
+    "codecov": "3.2.0",
+    "flow-bin": "0.95.1",
+    "flow-typed": "2.5.1",
+    "jest": "24.5.0",
+    "lintly": "0.3.0",
+    "nodely": "0.8.0"
+  }
+}
