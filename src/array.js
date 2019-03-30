@@ -23,10 +23,8 @@ export default function array(schema?: $Shape<ArraySchema>): ArraySchema {
     }
   }
 
-  if ('minItems' in finalSchema) {
-    if (!isPositiveInteger(finalSchema.minItems)) {
-      throw new Error('minItems must be a positive integer')
-    }
+  if ('minItems' in finalSchema && !isPositiveInteger(finalSchema.minItems)) {
+    throw new Error('minItems must be a positive integer')
   }
 
   return finalSchema
