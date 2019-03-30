@@ -1,10 +1,26 @@
-### This project uses [semver](semver.org), please check the scope of this pr:
+## Semver
 
-*   [ ] #none# - documentation fixes and/or test additions
-*   [ ] #patch# - backwards-compatible bug fix
-*   [ ] #minor# - adding functionality in a backwards-compatible manner
-*   [ ] #major# - incompatible API change
+**This project uses [semver](http://semver.org), please check the scope of this PR:**
 
-# CHANGELOG
+- [ ] #none#
+- [ ] #patch#
+- [ ] #minor#
+- [ ] #major#
 
-*   Please add a description of your change here, it will be automatically prepended to the `CHANGELOG.md` file.
+Please add a description of your change below.
+It will be automatically inserted into the `CHANGELOG.md` file.
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
+Please remove sections that doesn't apply to your change.
+
+## CHANGELOG
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
