@@ -1,7 +1,6 @@
 /** @flow */
 
-import array from '../array'
-import boolean from '../boolean'
+import {array, boolean} from '../index'
 
 describe('array()', () => {
   it('should return expected object when called without arguments', () => {
@@ -17,6 +16,14 @@ describe('array()', () => {
       minItems: 1,
       type: 'array',
     })
+  })
+
+  it('should throw when additionalItems present and items is not an Array', () => {
+    expect(() => {
+      array({additionalItems: true, items: boolean()})
+    }).toThrow(
+      'additionalItems should not be present when items is not an Array',
+    )
   })
 
   it('should throw when contains and items both present', () => {
