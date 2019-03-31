@@ -1,6 +1,6 @@
 /** @flow */
 
-import boolean from '../boolean'
+import {boolean} from '../index'
 
 describe('boolean()', () => {
   it('should return expected object when called without arguments', () => {

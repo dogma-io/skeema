@@ -1,6 +1,6 @@
 /** @flow */
 
-import number from '../number'
+import {number} from '../index'
 
 describe('number()', () => {
   it('should return expected object when called without arguments', () => {

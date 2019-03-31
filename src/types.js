@@ -79,3 +79,13 @@ export type ObjectSchema = {|
   required?: Array<string>,
   type: 'object',
 |}
+
+export type Reference = {|
+  message: string,
+  path: string,
+|}
+
+export type State = {|
+  errors: Array<Reference>,
+  warnings: Array<Reference>,
+|}

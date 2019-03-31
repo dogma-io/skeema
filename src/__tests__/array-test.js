@@ -1,7 +1,6 @@
 /** @flow */
 
-import array from '../array'
-import boolean from '../boolean'
+import {array, boolean} from '../index'
 
 describe('array()', () => {
   it('should return expected object when called without arguments', () => {

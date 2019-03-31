@@ -1,8 +1,6 @@
 /** @flow */
 
-import boolean from '../boolean'
-import object from '../object'
-import string from '../string'
+import {boolean, object, string} from '../index'
 
 describe('object()', () => {
   it('should return expected object when called with empty properties', () => {

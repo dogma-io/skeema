@@ -1,6 +1,6 @@
 /** @flow */
 
-import integer from '../integer'
+import {integer} from '../index'
 
 describe('integer()', () => {
   it('should return expected object when called without arguments', () => {
