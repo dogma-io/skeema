@@ -18,6 +18,14 @@ describe('array()', () => {
     })
   })
 
+  it('should throw when additionalItems present and items is not an Array', () => {
+    expect(() => {
+      array({additionalItems: true, items: boolean()})
+    }).toThrow(
+      'additionalItems should not be present when items is not an Array',
+    )
+  })
+
   it('should throw when contains and items both present', () => {
     expect(() => {
       array({contains: boolean(), items: boolean()})

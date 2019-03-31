@@ -30,6 +30,7 @@ function itShouldValidate(desc: string, schema: *) {
 
 const VALID_TESTS = [
   ['array type', {type: 'array'}],
+  ['array type with contains', {contains: {type: 'boolean'}, type: 'array'}],
   ['boolean type', {type: 'boolean'}],
   ['integer type', {type: 'integer'}],
   ['number type', {type: 'number'}],
@@ -45,6 +46,29 @@ describe('validateSchema()', () => {
   itShouldInvalidate('unknown type', {type: 'foo'}, [
     {message: 'Unknown type "foo"', path: '.type'},
   ])
+
+  itShouldInvalidate(
+    'array type with errors and warnings',
+    {
+      contains: {type: 'number'},
+      items: [
+        {maximum: 1.2, type: 'integer'},
+        {exclusiveMaximum: true, type: 'number'},
+      ],
+      type: 'array',
+    },
+    [{message: 'maximum must be an integer', path: '.items[0].maximum'}],
+    [
+      {
+        message: 'contains should not be present when items is present',
+        path: '.contains',
+      },
+      {
+        message: 'exclusiveMaximum should not be present when maximum is not',
+        path: '.items[1].exclusiveMaximum',
+      },
+    ],
+  )
 
   itShouldInvalidate(
     'integer type with errors and warnings',
