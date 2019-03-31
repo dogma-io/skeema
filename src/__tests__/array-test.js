@@ -18,6 +18,12 @@ describe('array()', () => {
     })
   })
 
+  it('should throw error when unknown properties included', () => {
+    expect(() => {
+      array(({foo: 'bar'}: any))
+    }).toThrow('unknown key "foo"')
+  })
+
   it('should throw when additionalItems present and items is not an Array', () => {
     expect(() => {
       array({additionalItems: true, items: boolean()})

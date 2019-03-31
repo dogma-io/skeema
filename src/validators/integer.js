@@ -2,13 +2,25 @@
 
 import type {State, IntegerSchema} from '../types'
 import {isInteger, isPositiveInteger} from './numeric'
-import {initState} from './state'
+import {validateKeys} from './utils'
 
 export default function validateInteger(
   schema: IntegerSchema,
   path: string,
 ): State {
-  const state = initState()
+  const state = validateKeys(
+    schema,
+    path,
+    ['type'],
+    [
+      'exclusiveMaximum',
+      'exclusiveMinimum',
+      'maximum',
+      'minimum',
+      'multipleOf',
+    ],
+  )
+
   const {
     exclusiveMaximum,
     exclusiveMinimum,

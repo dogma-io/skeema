@@ -7,10 +7,23 @@ import number from './number'
 import {isPositiveInteger} from './numeric'
 import object from './object'
 import string from './string'
-import {initState, mergeState} from './state'
+import {initState, mergeState, validateKeys} from './utils'
 
 export function validateArray(schema: ArraySchema, path: string): State {
-  let state = initState()
+  let state = validateKeys(
+    schema,
+    path,
+    ['type'],
+    [
+      'additionalItems',
+      'contains',
+      'items',
+      'maxItems',
+      'minItems',
+      'uniqueItems',
+    ],
+  )
+
   const {additionalItems, contains, items, maxItems, minItems} = schema
 
   if (additionalItems !== undefined && !Array.isArray(items)) {

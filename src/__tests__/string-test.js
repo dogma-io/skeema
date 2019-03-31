@@ -22,6 +22,12 @@ describe('string()', () => {
     })
   })
 
+  it('should throw error when unknown properties included', () => {
+    expect(() => {
+      string(({foo: 'bar'}: any))
+    }).toThrow('unknown key "foo"')
+  })
+
   it('should throw when maxLength is less than minLength', () => {
     expect(() => {
       string({maxLength: 1, minLength: 2})

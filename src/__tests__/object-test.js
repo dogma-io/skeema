@@ -21,4 +21,10 @@ describe('object()', () => {
       type: 'object',
     })
   })
+
+  it('should throw error when unknown properties included', () => {
+    expect(() => {
+      object(({foo: 'bar', properties: {}}: any))
+    }).toThrow('unknown key "foo"')
+  })
 })

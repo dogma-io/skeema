@@ -1,11 +1,23 @@
 /** @flow */
 
 import type {State, ObjectSchema} from '../types'
-import {initState} from './state'
+import {validateKeys} from './utils'
 
 export default function validateObject(
   schema: ObjectSchema,
   path: string,
 ): State {
-  return initState()
+  return validateKeys(
+    schema,
+    path,
+    ['properties', 'type'],
+    [
+      'additionalProperties',
+      'maxProperties',
+      'minProperties',
+      'patternProperties',
+      'propertyNames',
+      'required',
+    ],
+  )
 }

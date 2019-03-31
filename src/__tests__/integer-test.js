@@ -26,6 +26,12 @@ describe('integer()', () => {
     })
   })
 
+  it('should throw error when unknown properties included', () => {
+    expect(() => {
+      integer(({foo: 'bar'}: any))
+    }).toThrow('unknown key "foo"')
+  })
+
   it('should throw when exclusiveMaximum is present and maximum is not', () => {
     expect(() => {
       integer({exclusiveMaximum: true})

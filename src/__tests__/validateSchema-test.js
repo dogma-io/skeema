@@ -34,7 +34,7 @@ const VALID_TESTS = [
   ['boolean type', {type: 'boolean'}],
   ['integer type', {type: 'integer'}],
   ['number type', {type: 'number'}],
-  ['object type', {type: 'object'}],
+  ['object type', {properties: {}, type: 'object'}],
   ['string type', {type: 'string'}],
 ]
 

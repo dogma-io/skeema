@@ -11,7 +11,7 @@
     "copy-types": "flow-copy-source -i '**/__tests__/**' ./src ./lib",
     "postpublish": "codecov",
     "prepublishOnly": "yarn run build",
-    "test": "yarn run build && flow && jest"
+    "test": "yarn run build && lintly && flow && jest"
   },
   "repository": {
     "type": "git",

@@ -2,13 +2,19 @@
 
 import type {State, StringSchema} from '../types'
 import {isPositiveInteger} from './numeric'
-import {initState} from './state'
+import {validateKeys} from './utils'
 
 export default function validateString(
   schema: StringSchema,
   path: string,
 ): State {
-  const state = initState()
+  const state = validateKeys(
+    schema,
+    path,
+    ['type'],
+    ['enum', 'format', 'maxLength', 'minLength', 'pattern'],
+  )
+
   const {enum: schemaEnum, maxLength, minLength, pattern} = schema
 
   if (maxLength !== undefined) {
