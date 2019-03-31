@@ -23,10 +23,11 @@ export default function validateInteger(
         message: 'maximum must be an integer',
         path: `${path}.maximum`,
       })
-    }
-
-    if (minimum !== undefined && maximum < minimum) {
-      throw new Error('maximum cannot be less than minimum')
+    } else if (minimum !== undefined && maximum < minimum) {
+      state.errors.push({
+        message: 'maximum cannot be less than minimum',
+        path: `${path}.maximum`,
+      })
     }
   } else if (exclusiveMaximum !== undefined) {
     state.warnings.push({

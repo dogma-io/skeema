@@ -1,7 +1,7 @@
 /** @flow */
 
-import validateArray from './validators/array'
 import validateBoolean from './validators/boolean'
+import {validateArray} from './validators/index'
 import validateInteger from './validators/integer'
 import validateNumber from './validators/number'
 import validateObject from './validators/object'

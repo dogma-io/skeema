@@ -1,7 +1,7 @@
 /** @flow */
 
 export {array, boolean, integer, number, object, string} from './compose'
-export {validateSchema} from './validators'
+export {default as validateSchema} from './validators'
 
 export type {
   ArraySchema,
