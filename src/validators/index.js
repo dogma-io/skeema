@@ -25,7 +25,14 @@ export function validateArray(schema: ArraySchema, path: string): State {
     ],
   )
 
-  const {additionalItems, contains, items, maxItems, minItems} = schema
+  const {
+    additionalItems,
+    contains,
+    items,
+    maxItems,
+    minItems,
+    uniqueItems,
+  } = schema
 
   if (additionalItems !== undefined) {
     if (typeof additionalItems !== 'boolean') {
@@ -95,6 +102,13 @@ export function validateArray(schema: ArraySchema, path: string): State {
     state.errors.push({
       message: 'minItems must be a positive integer',
       path: `${path}.minItems`,
+    })
+  }
+
+  if (uniqueItems !== undefined && typeof uniqueItems !== 'boolean') {
+    state.errors.push({
+      message: 'uniqueItems must be a boolean',
+      path: `${path}.uniqueItems`,
     })
   }
 

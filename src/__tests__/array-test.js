@@ -183,6 +183,36 @@ describe('array()', () => {
   )
 
   itShouldThrow(
+    'when maxItems is an array',
+    ({maxItems: []}: any),
+    'maxItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when maxItems is a boolean',
+    ({maxItems: true}: any),
+    'maxItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when maxItems is null',
+    ({maxItems: null}: any),
+    'maxItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when maxItems is an object',
+    ({maxItems: {}}: any),
+    'maxItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when maxItems is a string',
+    ({maxItems: 'foo'}: any),
+    'maxItems must be a positive integer',
+  )
+
+  itShouldThrow(
     'when maxItems is less than minItems',
     {maxItems: 1, minItems: 2},
     'maxItems cannot be less than minItems',
@@ -201,6 +231,36 @@ describe('array()', () => {
   )
 
   itShouldThrow(
+    'when minItems is an array',
+    ({minItems: []}: any),
+    'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when minItems is a boolean',
+    ({minItems: true}: any),
+    'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when minItems is null',
+    ({minItems: null}: any),
+    'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when minItems is an object',
+    ({minItems: {}}: any),
+    'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when minItems is a string',
+    ({minItems: 'foo'}: any),
+    'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
     'when minItems is a negative integer',
     {minItems: -1},
     'minItems must be a positive integer',
@@ -210,5 +270,35 @@ describe('array()', () => {
     'when minItems is a non-integer number',
     {minItems: 1.2},
     'minItems must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when uniqueItems is an array',
+    ({uniqueItems: []}: any),
+    'uniqueItems must be a boolean',
+  )
+
+  itShouldThrow(
+    'when uniqueItems is null',
+    ({uniqueItems: null}: any),
+    'uniqueItems must be a boolean',
+  )
+
+  itShouldThrow(
+    'when uniqueItems is a number',
+    ({uniqueItems: 1}: any),
+    'uniqueItems must be a boolean',
+  )
+
+  itShouldThrow(
+    'when uniqueItems is an object',
+    ({uniqueItems: {}}: any),
+    'uniqueItems must be a boolean',
+  )
+
+  itShouldThrow(
+    'when uniqueItems is a string',
+    ({uniqueItems: 'foo'}: any),
+    'uniqueItems must be a boolean',
   )
 })
