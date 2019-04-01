@@ -7,10 +7,11 @@ import number from './number'
 import {isPositiveInteger} from './numeric'
 import object from './object'
 import string from './string'
-import {initState, mergeState, validateKeys} from './utils'
+import {initState, mergeState, validateSchema as _validateSchema} from './utils'
 
 export function validateArray(schema: ArraySchema, path: string): State {
-  let state = validateKeys(
+  let state = _validateSchema(
+    'array',
     schema,
     path,
     ['type'],
@@ -26,12 +27,21 @@ export function validateArray(schema: ArraySchema, path: string): State {
 
   const {additionalItems, contains, items, maxItems, minItems} = schema
 
-  if (additionalItems !== undefined && !Array.isArray(items)) {
-    state.warnings.push({
-      message:
-        'additionalItems should not be present when items is not an Array',
-      path: `${path}.additionalItems`,
-    })
+  if (additionalItems !== undefined) {
+    if (typeof additionalItems !== 'boolean') {
+      state.errors.push({
+        message: 'additionalItems must be a boolean',
+        path: `${path}.additionalItems`,
+      })
+    }
+
+    if (!Array.isArray(items)) {
+      state.warnings.push({
+        message:
+          'additionalItems should not be present when items is not an Array',
+        path: `${path}.additionalItems`,
+      })
+    }
   }
 
   if (contains !== undefined) {
@@ -55,7 +65,14 @@ export function validateArray(schema: ArraySchema, path: string): State {
       state,
     )
   } else if (items !== undefined) {
-    state = mergeState(state, validateSchema(items, `${path}.items`))
+    if (typeof items !== 'object' || items === null) {
+      state.errors.push({
+        message: 'items must be a schema or Array of schemas',
+        path: `${path}.items`,
+      })
+    } else {
+      state = mergeState(state, validateSchema(items, `${path}.items`))
+    }
   }
 
   if (maxItems !== undefined) {
@@ -94,6 +111,17 @@ const VALIDATORS = {
 }
 
 function validateSchema(schema: Schema, path?: string = ''): State {
+  if (typeof schema !== 'object' || Array.isArray(schema) || schema === null) {
+    const state = initState()
+
+    state.errors.push({
+      message: 'schema must be an Object',
+      path,
+    })
+
+    return state
+  }
+
   if (schema.type in VALIDATORS) {
     // eslint-disable-next-line flowtype/no-weak-types
     return VALIDATORS[schema.type]((schema: any), path)
@@ -102,7 +130,7 @@ function validateSchema(schema: Schema, path?: string = ''): State {
   const state = initState()
 
   state.errors.push({
-    message: `Unknown type "${schema.type}"`,
+    message: `unknown type "${schema.type}"`,
     path: `${path}.type`,
   })
 

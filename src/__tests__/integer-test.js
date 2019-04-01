@@ -2,6 +2,14 @@
 
 import {integer} from '../index'
 
+function itShouldThrow(desc: string, input: *, errorMessage: string) {
+  it(`should throw ${desc}`, () => {
+    expect(() => {
+      integer(input)
+    }).toThrow(errorMessage)
+  })
+}
+
 describe('integer()', () => {
   it('should return expected object when called without arguments', () => {
     expect(integer()).toEqual({type: 'integer'})
@@ -26,51 +34,87 @@ describe('integer()', () => {
     })
   })
 
-  it('should throw error when unknown properties included', () => {
-    expect(() => {
-      integer(({foo: 'bar'}: any))
-    }).toThrow('unknown key "foo"')
-  })
+  itShouldThrow(
+    'when type is an array',
+    ({type: []}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when exclusiveMaximum is present and maximum is not', () => {
-    expect(() => {
-      integer({exclusiveMaximum: true})
-    }).toThrow('exclusiveMaximum should not be present when maximum is not')
-  })
+  itShouldThrow(
+    'when type is a boolean',
+    ({type: true}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when exclusiveMinimum is present and minimum is not', () => {
-    expect(() => {
-      integer({exclusiveMinimum: true})
-    }).toThrow('exclusiveMinimum should not be present when minimum is not')
-  })
+  itShouldThrow(
+    'when type is null',
+    ({type: null}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when maximum is less than minimum', () => {
-    expect(() => {
-      integer({maximum: 1, minimum: 2})
-    }).toThrow('maximum cannot be less than minimum')
-  })
+  itShouldThrow(
+    'when type is a number',
+    ({type: 1}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when maximum is a non-integer number', () => {
-    expect(() => {
-      integer({maximum: 1.2})
-    }).toThrow('maximum must be an integer')
-  })
+  itShouldThrow(
+    'when type is an object',
+    ({type: {}}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when minimum is a non-integer number', () => {
-    expect(() => {
-      integer({minimum: 1.2})
-    }).toThrow('minimum must be an integer')
-  })
+  itShouldThrow(
+    'when type is an invalid string',
+    ({type: 'boolean'}: any),
+    'type must be string literal "integer"',
+  )
 
-  it('should throw when multipleOf is a negative integer', () => {
-    expect(() => {
-      integer({multipleOf: -1})
-    }).toThrow('multipleOf must be a positive integer')
-  })
+  itShouldThrow(
+    'when unknown properties included',
+    ({foo: 'bar'}: any),
+    'unknown key "foo"',
+  )
 
-  it('should throw when multipleOf is a non-integer number', () => {
-    expect(() => {
-      integer({multipleOf: 1.2})
-    }).toThrow('multipleOf must be a positive integer')
-  })
+  itShouldThrow(
+    'when exclusiveMaximum is present and maximum is not',
+    {exclusiveMaximum: true},
+    'exclusiveMaximum should not be present when maximum is not',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is present and minimum is not',
+    {exclusiveMinimum: true},
+    'exclusiveMinimum should not be present when minimum is not',
+  )
+
+  itShouldThrow(
+    'when maximum is less than minimum',
+    {maximum: 1, minimum: 2},
+    'maximum cannot be less than minimum',
+  )
+
+  itShouldThrow(
+    'when maximum is a non-integer number',
+    {maximum: 1.2},
+    'maximum must be an integer',
+  )
+
+  itShouldThrow(
+    'when minimum is a non-integer number',
+    {minimum: 1.2},
+    'minimum must be an integer',
+  )
+
+  itShouldThrow(
+    'when multipleOf is a negative integer',
+    {multipleOf: -1},
+    'multipleOf must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when multipleOf is a non-integer number',
+    {multipleOf: 1.2},
+    'multipleOf must be a positive integer',
+  )
 })

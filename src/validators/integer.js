@@ -2,13 +2,14 @@
 
 import type {State, IntegerSchema} from '../types'
 import {isInteger, isPositiveInteger} from './numeric'
-import {validateKeys} from './utils'
+import {validateSchema} from './utils'
 
 export default function validateInteger(
   schema: IntegerSchema,
   path: string,
 ): State {
-  const state = validateKeys(
+  const state = validateSchema(
+    'integer',
     schema,
     path,
     ['type'],

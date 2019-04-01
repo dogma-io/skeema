@@ -2,6 +2,14 @@
 
 import {number} from '../index'
 
+function itShouldThrow(desc: string, input: *, errorMessage: string) {
+  it(`should throw ${desc}`, () => {
+    expect(() => {
+      number(input)
+    }).toThrow(errorMessage)
+  })
+}
+
 describe('number()', () => {
   it('should return expected object when called without arguments', () => {
     expect(number()).toEqual({type: 'number'})
@@ -26,33 +34,69 @@ describe('number()', () => {
     })
   })
 
-  it('should throw error when unknown properties included', () => {
-    expect(() => {
-      number(({foo: 'bar'}: any))
-    }).toThrow('unknown key "foo"')
-  })
+  itShouldThrow(
+    'when type is an array',
+    ({type: []}: any),
+    'type must be string literal "number"',
+  )
 
-  it('should throw when exclusiveMaximum is present and maximum is not', () => {
-    expect(() => {
-      number({exclusiveMaximum: true})
-    }).toThrow('exclusiveMaximum should not be present when maximum is not')
-  })
+  itShouldThrow(
+    'when type is a boolean',
+    ({type: true}: any),
+    'type must be string literal "number"',
+  )
 
-  it('should throw when exclusiveMinimum is present and minimum is not', () => {
-    expect(() => {
-      number({exclusiveMinimum: true})
-    }).toThrow('exclusiveMinimum should not be present when minimum is not')
-  })
+  itShouldThrow(
+    'when type is null',
+    ({type: null}: any),
+    'type must be string literal "number"',
+  )
 
-  it('should throw when maximum is less than minimum', () => {
-    expect(() => {
-      number({maximum: 1, minimum: 2})
-    }).toThrow('maximum cannot be less than minimum')
-  })
+  itShouldThrow(
+    'when type is a number',
+    ({type: 1}: any),
+    'type must be string literal "number"',
+  )
 
-  it('should throw when multipleOf is a negative number', () => {
-    expect(() => {
-      number({multipleOf: -1})
-    }).toThrow('multipleOf must be a positive number')
-  })
+  itShouldThrow(
+    'when type is an object',
+    ({type: {}}: any),
+    'type must be string literal "number"',
+  )
+
+  itShouldThrow(
+    'when type is an invalid string',
+    ({type: 'boolean'}: any),
+    'type must be string literal "number"',
+  )
+
+  itShouldThrow(
+    'when unknown properties included',
+    ({foo: 'bar'}: any),
+    'unknown key "foo"',
+  )
+
+  itShouldThrow(
+    'when exclusiveMaximum is present and maximum is not',
+    {exclusiveMaximum: true},
+    'exclusiveMaximum should not be present when maximum is not',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is present and minimum is not',
+    {exclusiveMinimum: true},
+    'exclusiveMinimum should not be present when minimum is not',
+  )
+
+  itShouldThrow(
+    'when maximum is less than minimum',
+    {maximum: 1, minimum: 2},
+    'maximum cannot be less than minimum',
+  )
+
+  itShouldThrow(
+    'when multipleOf is a negative number',
+    {multipleOf: -1},
+    'multipleOf must be a positive number',
+  )
 })

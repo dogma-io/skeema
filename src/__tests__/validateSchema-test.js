@@ -44,7 +44,7 @@ describe('validateSchema()', () => {
   })
 
   itShouldInvalidate('unknown type', {type: 'foo'}, [
-    {message: 'Unknown type "foo"', path: '.type'},
+    {message: 'unknown type "foo"', path: '.type'},
   ])
 
   itShouldInvalidate(

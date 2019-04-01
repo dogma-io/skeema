@@ -2,13 +2,14 @@
 
 import type {State, StringSchema} from '../types'
 import {isPositiveInteger} from './numeric'
-import {validateKeys} from './utils'
+import {validateSchema} from './utils'
 
 export default function validateString(
   schema: StringSchema,
   path: string,
 ): State {
-  const state = validateKeys(
+  const state = validateSchema(
+    'string',
     schema,
     path,
     ['type'],
@@ -65,26 +66,33 @@ export default function validateString(
   }
 
   if (pattern !== undefined) {
-    let regex
-
-    try {
-      regex = RegExp(pattern)
-    } catch (err) {
+    if (typeof pattern !== 'string') {
       state.errors.push({
-        message: 'pattern is invalid',
+        message: 'pattern must be a string',
         path: `${path}.pattern`,
       })
-    }
+    } else {
+      let regex
 
-    if (schemaEnum !== undefined) {
-      schemaEnum.forEach((value: string, index: number) => {
-        if (!regex.test(value)) {
-          state.errors.push({
-            message: `enum value "${value}" does not match pattern`,
-            path: `${path}.enum[${index}]`,
-          })
-        }
-      })
+      try {
+        regex = RegExp(pattern)
+      } catch (err) {
+        state.errors.push({
+          message: 'pattern is invalid',
+          path: `${path}.pattern`,
+        })
+      }
+
+      if (schemaEnum !== undefined) {
+        schemaEnum.forEach((value: string, index: number) => {
+          if (!regex.test(value)) {
+            state.errors.push({
+              message: `enum value "${value}" does not match pattern`,
+              path: `${path}.enum[${index}]`,
+            })
+          }
+        })
+      }
     }
   }
 

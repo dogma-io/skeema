@@ -19,8 +19,9 @@ export function mergeState(...states: Array<State>): State {
   )
 }
 
-export function validateKeys(
-  object: Object, // eslint-disable-line flowtype/no-weak-types
+export function validateSchema(
+  type: string,
+  schema: Object, // eslint-disable-line flowtype/no-weak-types
   path: string,
   requiredKeys: Array<string>,
   allowedKeys?: Array<string> = [],
@@ -28,7 +29,7 @@ export function validateKeys(
   const newState = initState()
 
   requiredKeys.forEach((key: string) => {
-    if (!(key in object)) {
+    if (!(key in schema)) {
       newState.errors.push({
         message: `required key "${key}" is missing`,
         path,
@@ -36,7 +37,7 @@ export function validateKeys(
     }
   })
 
-  Object.keys(object).forEach((key: string) => {
+  Object.keys(schema).forEach((key: string) => {
     if (!requiredKeys.includes(key) && !allowedKeys.includes(key)) {
       newState.warnings.push({
         message: `unknown key "${key}"`,
@@ -44,6 +45,13 @@ export function validateKeys(
       })
     }
   })
+
+  if (schema.type !== type) {
+    newState.errors.push({
+      message: `type must be string literal "${type}"`,
+      path: `${path}.type`,
+    })
+  }
 
   return newState
 }
