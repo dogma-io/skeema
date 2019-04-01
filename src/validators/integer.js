@@ -30,6 +30,20 @@ export default function validateInteger(
     multipleOf,
   } = schema
 
+  if (exclusiveMaximum !== undefined && typeof exclusiveMaximum !== 'boolean') {
+    state.errors.push({
+      message: 'exclusiveMaximum must be a boolean',
+      path: `${path}.exclusiveMaximum`,
+    })
+  }
+
+  if (exclusiveMinimum !== undefined && typeof exclusiveMinimum !== 'boolean') {
+    state.errors.push({
+      message: 'exclusiveMinimum must be a boolean',
+      path: `${path}.exclusiveMinimum`,
+    })
+  }
+
   if (maximum !== undefined) {
     if (!isInteger(maximum)) {
       state.errors.push({
