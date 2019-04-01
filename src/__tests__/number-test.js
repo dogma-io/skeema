@@ -77,9 +77,69 @@ describe('number()', () => {
   )
 
   itShouldThrow(
+    'when exclusiveMaximum is an array',
+    ({exclusiveMaximum: [], maximum: 2}: any),
+    'exclusiveMaximum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMaximum is null',
+    ({exclusiveMaximum: null, maximum: 2}: any),
+    'exclusiveMaximum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMaximum is a number',
+    ({exclusiveMaximum: 1, maximum: 2}: any),
+    'exclusiveMaximum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMaximum is an object',
+    ({exclusiveMaximum: {}, maximum: 2}: any),
+    'exclusiveMaximum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMaximum is a string',
+    ({exclusiveMaximum: 'foo', maximum: 2}: any),
+    'exclusiveMaximum must be a boolean',
+  )
+
+  itShouldThrow(
     'when exclusiveMaximum is present and maximum is not',
     {exclusiveMaximum: true},
     'exclusiveMaximum should not be present when maximum is not',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is an array',
+    ({exclusiveMinimum: [], minimum: 2}: any),
+    'exclusiveMinimum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is null',
+    ({exclusiveMinimum: null, minimum: 2}: any),
+    'exclusiveMinimum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is a number',
+    ({exclusiveMinimum: 1, minimum: 2}: any),
+    'exclusiveMinimum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is an object',
+    ({exclusiveMinimum: {}, minimum: 2}: any),
+    'exclusiveMinimum must be a boolean',
+  )
+
+  itShouldThrow(
+    'when exclusiveMinimum is a string',
+    ({exclusiveMinimum: 'foo', minimum: 2}: any),
+    'exclusiveMinimum must be a boolean',
   )
 
   itShouldThrow(
@@ -89,9 +149,99 @@ describe('number()', () => {
   )
 
   itShouldThrow(
+    'when maximum is an array',
+    ({maximum: []}: any),
+    'maximum must be a number',
+  )
+
+  itShouldThrow(
+    'when maximum is a boolean',
+    ({maximum: true}: any),
+    'maximum must be a number',
+  )
+
+  itShouldThrow(
+    'when maximum is null',
+    ({maximum: null}: any),
+    'maximum must be a number',
+  )
+
+  itShouldThrow(
+    'when maximum is an object',
+    ({maximum: {}}: any),
+    'maximum must be a number',
+  )
+
+  itShouldThrow(
+    'when maximum is a string',
+    ({maximum: 'foo'}: any),
+    'maximum must be a number',
+  )
+
+  itShouldThrow(
     'when maximum is less than minimum',
     {maximum: 1, minimum: 2},
     'maximum cannot be less than minimum',
+  )
+
+  itShouldThrow(
+    'when minimum is an array',
+    ({minimum: []}: any),
+    'minimum must be a number',
+  )
+
+  itShouldThrow(
+    'when minimum is a boolean',
+    ({minimum: true}: any),
+    'minimum must be a number',
+  )
+
+  itShouldThrow(
+    'when minimum is null',
+    ({minimum: null}: any),
+    'minimum must be a number',
+  )
+
+  itShouldThrow(
+    'when minimum is an object',
+    ({minimum: {}}: any),
+    'minimum must be a number',
+  )
+
+  itShouldThrow(
+    'when minimum is a string',
+    ({minimum: 'foo'}: any),
+    'minimum must be a number',
+  )
+
+  itShouldThrow(
+    'when multipleOf is an array',
+    ({multipleOf: []}: any),
+    'multipleOf must be a positive number',
+  )
+
+  itShouldThrow(
+    'when multipleOf is a boolean',
+    ({multipleOf: true}: any),
+    'multipleOf must be a positive number',
+  )
+
+  itShouldThrow(
+    'when multipleOf is null',
+    ({multipleOf: null}: any),
+    'multipleOf must be a positive number',
+  )
+
+  itShouldThrow(
+    'when multipleOf is an object',
+    ({multipleOf: {}}: any),
+    'multipleOf must be a positive number',
+  )
+
+  itShouldThrow(
+    'when multipleOf is a string',
+    ({multipleOf: 'foo'}: any),
+    'multipleOf must be a positive number',
   )
 
   itShouldThrow(
