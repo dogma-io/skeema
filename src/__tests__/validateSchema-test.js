@@ -121,4 +121,8 @@ describe('validateSchema()', () => {
       },
     ],
   )
+
+  itShouldInvalidate('object type without properties', {type: 'object'}, [
+    {message: 'required key "properties" is missing', path: ''},
+  ])
 })

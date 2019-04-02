@@ -121,6 +121,12 @@ describe('string()', () => {
   )
 
   itShouldThrow(
+    'when enum has duplicate values',
+    {enum: ['foo', 'bar', 'foo']},
+    'duplicate enum value',
+  )
+
+  itShouldThrow(
     'when format is an array',
     ({format: 1}: any),
     'format must be a string',
