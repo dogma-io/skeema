@@ -16,7 +16,40 @@ export default function validateString(
     ['enum', 'format', 'maxLength', 'minLength', 'pattern'],
   )
 
-  const {enum: schemaEnum, maxLength, minLength, pattern} = schema
+  const {enum: schemaEnum, format, maxLength, minLength, pattern} = schema
+
+  if (
+    schemaEnum !== undefined &&
+    (!Array.isArray(schemaEnum) ||
+      schemaEnum.some((value: string): boolean => typeof value !== 'string'))
+  ) {
+    state.errors.push({
+      message: 'enum must be an array of strings',
+      path: `${path}.enum`,
+    })
+  }
+
+  if (Array.isArray(schemaEnum)) {
+    const set = new Set()
+
+    schemaEnum.forEach((value: string, index: number) => {
+      if (set.has(value)) {
+        state.warnings.push({
+          message: 'duplicate enum value',
+          path: `${path}.enum[${index}]`,
+        })
+      }
+
+      set.add(value)
+    })
+  }
+
+  if (format !== undefined && typeof format !== 'string') {
+    state.errors.push({
+      message: 'format must be a string',
+      path: `${path}.format`,
+    })
+  }
 
   if (maxLength !== undefined) {
     if (!isPositiveInteger(maxLength)) {
@@ -33,7 +66,7 @@ export default function validateString(
       })
     }
 
-    if (schemaEnum !== undefined) {
+    if (Array.isArray(schemaEnum)) {
       schemaEnum.forEach((value: string, index: number) => {
         if (value.length > maxLength) {
           state.errors.push({
@@ -53,7 +86,7 @@ export default function validateString(
       })
     }
 
-    if (schemaEnum !== undefined) {
+    if (Array.isArray(schemaEnum)) {
       schemaEnum.forEach((value: string, index: number) => {
         if (value.length < minLength) {
           state.errors.push({
@@ -83,7 +116,7 @@ export default function validateString(
         })
       }
 
-      if (schemaEnum !== undefined) {
+      if (Array.isArray(schemaEnum)) {
         schemaEnum.forEach((value: string, index: number) => {
           if (!regex.test(value)) {
             state.errors.push({

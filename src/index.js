@@ -6,7 +6,6 @@ export {default as validateSchema} from './validators'
 export type {
   ArraySchema,
   BooleanSchema,
-  Format,
   IntegerSchema,
   NumberSchema,
   ObjectSchema,
