@@ -21,7 +21,8 @@ describe('object()', () => {
       baz: string(),
     }
 
-    expect(object({properties})).toEqual({
+    expect(object({additionalProperties: false, properties})).toEqual({
+      additionalProperties: false,
       properties: {
         bar: {type: 'boolean'},
         baz: {type: 'string'},
@@ -70,5 +71,71 @@ describe('object()', () => {
     'when unknown properties included',
     ({foo: 'bar', properties: {}}: any),
     'unknown key "foo"',
+  )
+
+  itShouldThrow(
+    'when additionalProperties is an array',
+    ({additionalProperties: [], properties: {}}: any),
+    'additionalProperties must be a boolean or a schema',
+  )
+
+  itShouldThrow(
+    'when additionalProperties is null',
+    ({additionalProperties: null, properties: {}}: any),
+    'additionalProperties must be a boolean or a schema',
+  )
+
+  itShouldThrow(
+    'when additionalProperties is a number',
+    ({additionalProperties: 1, properties: {}}: any),
+    'additionalProperties must be a boolean or a schema',
+  )
+
+  itShouldThrow(
+    'when additionalProperties is a string',
+    ({additionalProperties: 'foo', properties: {}}: any),
+    'additionalProperties must be a boolean or a schema',
+  )
+
+  itShouldThrow(
+    'when additionalProperties is an invalid schema',
+    ({additionalProperties: {type: 'foo'}, properties: {}}: any),
+    'unknown type "foo"',
+  )
+
+  itShouldThrow(
+    'when properties is an array',
+    ({properties: []}: any),
+    'properties must be an object',
+  )
+
+  itShouldThrow(
+    'when properties is a boolean',
+    ({properties: true}: any),
+    'properties must be an object',
+  )
+
+  itShouldThrow(
+    'when properties is null',
+    ({properties: null}: any),
+    'properties must be an object',
+  )
+
+  itShouldThrow(
+    'when properties is a number',
+    ({properties: 1}: any),
+    'properties must be an object',
+  )
+
+  itShouldThrow(
+    'when properties is a string',
+    ({properties: 'foo'}: any),
+    'properties must be an object',
+  )
+
+  itShouldThrow(
+    'when property is not a valid schema',
+    ({properties: {foo: 'bar'}}: any),
+    'schema must be an Object',
   )
 })

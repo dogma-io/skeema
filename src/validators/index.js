@@ -1,11 +1,10 @@
 /** @flow */
 
-import type {ArraySchema, Schema, State} from '../types'
+import type {ArraySchema, ObjectSchema, Schema, State} from '../types'
 import boolean from './boolean'
 import integer from './integer'
 import number from './number'
 import {isPositiveInteger} from './numeric'
-import object from './object'
 import string from './string'
 import {initState, mergeState, validateSchema as _validateSchema} from './utils'
 
@@ -115,16 +114,87 @@ export function validateArray(schema: ArraySchema, path: string): State {
   return state
 }
 
+export function validateObject(schema: ObjectSchema, path: string): State {
+  let state = _validateSchema(
+    'object',
+    schema,
+    path,
+    ['properties', 'type'],
+    [
+      'additionalProperties',
+      'maxProperties',
+      'minProperties',
+      'patternProperties',
+      'propertyNames',
+      'required',
+    ],
+  )
+
+  const {additionalProperties, properties} = schema
+
+  if (additionalProperties !== undefined) {
+    if (
+      typeof additionalProperties === 'object' &&
+      !Array.isArray(additionalProperties) &&
+      additionalProperties !== null
+    ) {
+      state = validateSchema(
+        additionalProperties,
+        `${path}.additionalProperties`,
+      )
+    } else if (typeof additionalProperties !== 'boolean') {
+      state.errors.push({
+        message: 'additionalProperties must be a boolean or a schema',
+        path: `${path}.additionalProperties`,
+      })
+    }
+  }
+
+  // TODO: validate maxProperties
+  // TODO: validate minProperties
+  // TODO: validate patterProperties
+
+  if (properties !== undefined) {
+    if (
+      typeof properties !== 'object' ||
+      Array.isArray(properties) ||
+      properties === null
+    ) {
+      state.errors.push({
+        message: 'properties must be an object',
+        path: `${path}.properties`,
+      })
+    } else {
+      state = Object.keys(properties).reduce(
+        (accumulator: State, key: string): State =>
+          mergeState(
+            accumulator,
+            validateSchema(properties[key], `${path}.properties.${key}`),
+          ),
+        state,
+      )
+    }
+  }
+
+  // TODO: validate propertyNames
+  // TODO: validate required
+
+  return state
+}
+
 const VALIDATORS = {
   array: validateArray,
   boolean,
   integer,
   number,
-  object,
+  object: validateObject,
   string,
 }
 
-function validateSchema(schema: Schema, path?: string = ''): State {
+export default function validateSchema(
+  schema: Schema,
+  path?: string = '',
+): State {
   if (typeof schema !== 'object' || Array.isArray(schema) || schema === null) {
     const state = initState()
 
@@ -150,5 +220,3 @@ function validateSchema(schema: Schema, path?: string = ''): State {
 
   return state
 }
-
-export default validateSchema

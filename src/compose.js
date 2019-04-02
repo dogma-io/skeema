@@ -1,10 +1,9 @@
 /** @flow */
 
 import validateBoolean from './validators/boolean'
-import {validateArray} from './validators/index'
+import {validateArray, validateObject} from './validators/index'
 import validateInteger from './validators/integer'
 import validateNumber from './validators/number'
-import validateObject from './validators/object'
 import validateString from './validators/string'
 import type {
   ArraySchema,
