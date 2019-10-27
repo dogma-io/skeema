@@ -44,6 +44,22 @@ export type Schema =
   | ObjectSchema // eslint-disable-line no-use-before-define
   | StringSchema
 
+export type AllOfSchema = {|
+  allOf: Array<Schema>,
+|}
+
+export type AnyOfSchema = {|
+  anyOf: Array<Schema>,
+|}
+
+export type NotSchema = {|
+  not: Schema,
+|}
+
+export type OneOfSchema = {|
+  oneOf: Array<Schema>,
+|}
+
 export type ArraySchema = {|
   additionalItems?: boolean | Schema,
   contains?: Schema,
