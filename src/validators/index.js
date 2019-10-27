@@ -3,6 +3,7 @@
 import type {ArraySchema, ObjectSchema, Schema, State} from '../types'
 import boolean from './boolean'
 import integer from './integer'
+import nil from './null'
 import number from './number'
 import {isPositiveInteger} from './numeric'
 import string from './string'
@@ -186,6 +187,7 @@ const VALIDATORS = {
   array: validateArray,
   boolean,
   integer,
+  null: nil,
   number,
   object: validateObject,
   string,

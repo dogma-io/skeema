@@ -3,12 +3,14 @@
 import validateBoolean from './validators/boolean'
 import {validateArray, validateObject} from './validators/index'
 import validateInteger from './validators/integer'
+import validateNull from './validators/null'
 import validateNumber from './validators/number'
 import validateString from './validators/string'
 import type {
   ArraySchema,
   BooleanSchema,
   IntegerSchema,
+  NullSchema,
   NumberSchema,
   ObjectSchema,
   StringSchema,
@@ -39,6 +41,10 @@ export function boolean(schema?: $Shape<BooleanSchema>): BooleanSchema {
 
 export function integer(schema?: $Shape<IntegerSchema>): IntegerSchema {
   return error({type: 'integer', ...schema}, validateInteger)
+}
+
+export function nil(schema?: $Shape<NullSchema>): NullSchema {
+  return error({type: 'null', ...schema}, validateNull)
 }
 
 export function number(schema?: $Shape<NumberSchema>): NumberSchema {
