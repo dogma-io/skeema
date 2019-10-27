@@ -6,8 +6,16 @@ module.exports = {
     }
   },
   features: {
-    changelog: {enabled: true},
-    logging: {enabled: true},
-    timezone: {enabled: true, zone: 'America/New_York'}
+    changelog: {
+      enabled: true
+    },
+    logging: {
+      enabled: true,
+      file: '.bumpr-log.json'
+    },
+    timezone: {
+      enabled: true,
+      zone: 'America/New_York'
+    }
   }
 }
