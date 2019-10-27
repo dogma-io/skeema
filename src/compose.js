@@ -7,12 +7,17 @@ import validateNull from './validators/null'
 import validateNumber from './validators/number'
 import validateString from './validators/string'
 import type {
+  AllOfSchema,
+  AnyOfSchema,
   ArraySchema,
   BooleanSchema,
   IntegerSchema,
+  NotSchema,
   NullSchema,
   NumberSchema,
+  OneOfSchema,
   ObjectSchema,
+  Schema,
   StringSchema,
   State,
 } from './types'
@@ -31,6 +36,14 @@ function error<T>(schema: T, validator: (schema: T, path: string) => State): T {
   return schema
 }
 
+export function allOf(...schemas: Array<Schema>): AllOfSchema {
+  return {allOf: schemas}
+}
+
+export function anyOf(...schemas: Array<Schema>): AnyOfSchema {
+  return {anyOf: schemas}
+}
+
 export function array(schema?: $Shape<ArraySchema>): ArraySchema {
   return error({type: 'array', ...schema}, validateArray)
 }
@@ -47,8 +60,16 @@ export function nil(schema?: $Shape<NullSchema>): NullSchema {
   return error({type: 'null', ...schema}, validateNull)
 }
 
+export function not(schema: Schema): NotSchema {
+  return {not: schema}
+}
+
 export function number(schema?: $Shape<NumberSchema>): NumberSchema {
   return error({type: 'number', ...schema}, validateNumber)
+}
+
+export function oneOf(...schemas: Array<Schema>): OneOfSchema {
+  return {oneOf: schemas}
 }
 
 export function object(
