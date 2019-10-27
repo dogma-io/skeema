@@ -2,12 +2,14 @@ language: node_js
 node_js:
 - stable
 sudo: false
+before_install:
+- yarn global add bumpr@^2.7.2
 install:
 - yarn install
 before_script:
-- yarn run bumpr check
+- bumpr check
 script:
 - yarn test
-- yarn run bumpr bump
+- bumpr bump
 after_success:
-- VERBOSE=1 yarn run bumpr publish
+- bumpr publish

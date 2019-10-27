@@ -64,7 +64,7 @@ export default function validateInteger(
   }
 
   if (minimum !== undefined) {
-    if (!Number.isInteger(minimum)) {
+    if (!isInteger(minimum)) {
       state.errors.push({
         message: 'minimum must be an integer',
         path: `${path}.minimum`,

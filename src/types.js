@@ -13,6 +13,10 @@ export type IntegerSchema = {|
   type: 'integer',
 |}
 
+export type NullSchema = {|
+  type: 'null',
+|}
+
 export type NumberSchema = {|
   exclusiveMaximum?: boolean,
   exclusiveMinimum?: boolean,
@@ -35,6 +39,7 @@ export type Schema =
   | ArraySchema // eslint-disable-line no-use-before-define
   | BooleanSchema
   | IntegerSchema
+  | NullSchema
   | NumberSchema
   | ObjectSchema // eslint-disable-line no-use-before-define
   | StringSchema
