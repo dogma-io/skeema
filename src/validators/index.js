@@ -1,24 +1,53 @@
 /** @flow */
 
-import type {ArraySchema, Schema, State} from '../types'
+import type {ArraySchema, ObjectSchema, Schema, State} from '../types'
 import boolean from './boolean'
 import integer from './integer'
 import number from './number'
 import {isPositiveInteger} from './numeric'
-import object from './object'
 import string from './string'
-import {initState, mergeState} from './state'
+import {initState, mergeState, validateSchema as _validateSchema} from './utils'
 
 export function validateArray(schema: ArraySchema, path: string): State {
-  let state = initState()
-  const {additionalItems, contains, items, maxItems, minItems} = schema
+  let state = _validateSchema(
+    'array',
+    schema,
+    path,
+    ['type'],
+    [
+      'additionalItems',
+      'contains',
+      'items',
+      'maxItems',
+      'minItems',
+      'uniqueItems',
+    ],
+  )
 
-  if (additionalItems !== undefined && !Array.isArray(items)) {
-    state.warnings.push({
-      message:
-        'additionalItems should not be present when items is not an Array',
-      path: `${path}.additionalItems`,
-    })
+  const {
+    additionalItems,
+    contains,
+    items,
+    maxItems,
+    minItems,
+    uniqueItems,
+  } = schema
+
+  if (additionalItems !== undefined) {
+    if (typeof additionalItems !== 'boolean') {
+      state.errors.push({
+        message: 'additionalItems must be a boolean',
+        path: `${path}.additionalItems`,
+      })
+    }
+
+    if (!Array.isArray(items)) {
+      state.warnings.push({
+        message:
+          'additionalItems should not be present when items is not an Array',
+        path: `${path}.additionalItems`,
+      })
+    }
   }
 
   if (contains !== undefined) {
@@ -42,7 +71,14 @@ export function validateArray(schema: ArraySchema, path: string): State {
       state,
     )
   } else if (items !== undefined) {
-    state = mergeState(state, validateSchema(items, `${path}.items`))
+    if (typeof items !== 'object' || items === null) {
+      state.errors.push({
+        message: 'items must be a schema or Array of schemas',
+        path: `${path}.items`,
+      })
+    } else {
+      state = mergeState(state, validateSchema(items, `${path}.items`))
+    }
   }
 
   if (maxItems !== undefined) {
@@ -68,6 +104,81 @@ export function validateArray(schema: ArraySchema, path: string): State {
     })
   }
 
+  if (uniqueItems !== undefined && typeof uniqueItems !== 'boolean') {
+    state.errors.push({
+      message: 'uniqueItems must be a boolean',
+      path: `${path}.uniqueItems`,
+    })
+  }
+
+  return state
+}
+
+export function validateObject(schema: ObjectSchema, path: string): State {
+  let state = _validateSchema(
+    'object',
+    schema,
+    path,
+    ['properties', 'type'],
+    [
+      'additionalProperties',
+      'maxProperties',
+      'minProperties',
+      'patternProperties',
+      'propertyNames',
+      'required',
+    ],
+  )
+
+  const {additionalProperties, properties} = schema
+
+  if (additionalProperties !== undefined) {
+    if (
+      typeof additionalProperties === 'object' &&
+      !Array.isArray(additionalProperties) &&
+      additionalProperties !== null
+    ) {
+      state = validateSchema(
+        additionalProperties,
+        `${path}.additionalProperties`,
+      )
+    } else if (typeof additionalProperties !== 'boolean') {
+      state.errors.push({
+        message: 'additionalProperties must be a boolean or a schema',
+        path: `${path}.additionalProperties`,
+      })
+    }
+  }
+
+  // TODO: validate maxProperties
+  // TODO: validate minProperties
+  // TODO: validate patternProperties
+
+  if (properties !== undefined) {
+    if (
+      typeof properties !== 'object' ||
+      Array.isArray(properties) ||
+      properties === null
+    ) {
+      state.errors.push({
+        message: 'properties must be an object',
+        path: `${path}.properties`,
+      })
+    } else {
+      state = Object.keys(properties).reduce(
+        (accumulator: State, key: string): State =>
+          mergeState(
+            accumulator,
+            validateSchema(properties[key], `${path}.properties.${key}`),
+          ),
+        state,
+      )
+    }
+  }
+
+  // TODO: validate propertyNames
+  // TODO: validate required
+
   return state
 }
 
@@ -76,11 +187,25 @@ const VALIDATORS = {
   boolean,
   integer,
   number,
-  object,
+  object: validateObject,
   string,
 }
 
-function validateSchema(schema: Schema, path?: string = ''): State {
+export default function validateSchema(
+  schema: Schema,
+  path?: string = '',
+): State {
+  if (typeof schema !== 'object' || Array.isArray(schema) || schema === null) {
+    const state = initState()
+
+    state.errors.push({
+      message: 'schema must be an Object',
+      path,
+    })
+
+    return state
+  }
+
   if (schema.type in VALIDATORS) {
     // eslint-disable-next-line flowtype/no-weak-types
     return VALIDATORS[schema.type]((schema: any), path)
@@ -89,11 +214,9 @@ function validateSchema(schema: Schema, path?: string = ''): State {
   const state = initState()
 
   state.errors.push({
-    message: `Unknown type "${schema.type}"`,
+    message: `unknown type "${schema.type}"`,
     path: `${path}.type`,
   })
 
   return state
 }
-
-export default validateSchema

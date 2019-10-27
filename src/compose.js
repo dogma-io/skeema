@@ -1,10 +1,9 @@
 /** @flow */
 
 import validateBoolean from './validators/boolean'
-import {validateArray} from './validators/index'
+import {validateArray, validateObject} from './validators/index'
 import validateInteger from './validators/integer'
 import validateNumber from './validators/number'
-import validateObject from './validators/object'
 import validateString from './validators/string'
 import type {
   ArraySchema,
@@ -31,27 +30,27 @@ function error<T>(schema: T, validator: (schema: T, path: string) => State): T {
 }
 
 export function array(schema?: $Shape<ArraySchema>): ArraySchema {
-  return error({...schema, type: 'array'}, validateArray)
+  return error({type: 'array', ...schema}, validateArray)
 }
 
 export function boolean(schema?: $Shape<BooleanSchema>): BooleanSchema {
-  return error({...schema, type: 'boolean'}, validateBoolean)
+  return error({type: 'boolean', ...schema}, validateBoolean)
 }
 
 export function integer(schema?: $Shape<IntegerSchema>): IntegerSchema {
-  return error({...schema, type: 'integer'}, validateInteger)
+  return error({type: 'integer', ...schema}, validateInteger)
 }
 
 export function number(schema?: $Shape<NumberSchema>): NumberSchema {
-  return error({...schema, type: 'number'}, validateNumber)
+  return error({type: 'number', ...schema}, validateNumber)
 }
 
 export function object(
   schema?: $Diff<ObjectSchema, {|type: 'object'|}>,
 ): ObjectSchema {
-  return error({...schema, type: 'object'}, validateObject)
+  return error({type: 'object', ...schema}, validateObject)
 }
 
 export function string(schema?: $Shape<StringSchema>): StringSchema {
-  return error({...schema, type: 'string'}, validateString)
+  return error({type: 'string', ...schema}, validateString)
 }

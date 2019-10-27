@@ -11,7 +11,7 @@
     "copy-types": "flow-copy-source -i '**/__tests__/**' ./src ./lib",
     "postpublish": "codecov",
     "prepublishOnly": "yarn run build",
-    "test": "yarn run build && flow && jest"
+    "test": "yarn run build && lintly && flow && jest"
   },
   "repository": {
     "type": "git",
@@ -39,15 +39,15 @@
   "homepage": "https://github.com/dogma-io/skeema#readme",
   "devDependencies": {
     "babel-core": "^7.0.0-0",
-    "babel-jest": "24.5.0",
-    "babel-preset-nodely": "0.4.1",
-    "bumpr": "2.4.0",
-    "codecov": "3.2.0",
-    "flow-bin": "0.95.1",
-    "flow-copy-source": "2.0.3",
-    "flow-typed": "2.5.1",
-    "jest": "24.5.0",
-    "lintly": "0.3.0",
-    "nodely": "0.8.0"
+    "babel-jest": "24.9.0",
+    "babel-preset-nodely": "0.4.2",
+    "bumpr": "2.7.2",
+    "codecov": "3.6.1",
+    "flow-bin": "0.110.1",
+    "flow-copy-source": "2.0.8",
+    "flow-typed": "2.6.2",
+    "jest": "24.9.0",
+    "lintly": "0.4.0",
+    "nodely": "1.0.0"
   }
 }

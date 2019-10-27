@@ -22,28 +22,9 @@ export type NumberSchema = {|
   type: 'number',
 |}
 
-export type Format =
-  | 'date'
-  | 'date-time'
-  | 'email'
-  | 'hostname'
-  | 'idn-email'
-  | 'idn-hostname'
-  | 'ipv4'
-  | 'ipv6'
-  | 'iri'
-  | 'iri-reference'
-  | 'json-pointer'
-  | 'regex'
-  | 'relative-json-pointer'
-  | 'time'
-  | 'uri'
-  | 'uri-reference'
-  | 'uri-template'
-
 export type StringSchema = {|
   enum?: Array<string>,
-  format?: Format,
+  format?: string,
   maxLength?: number,
   minLength?: number,
   pattern?: string,

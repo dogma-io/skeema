@@ -2,13 +2,26 @@
 
 import type {State, IntegerSchema} from '../types'
 import {isInteger, isPositiveInteger} from './numeric'
-import {initState} from './state'
+import {validateSchema} from './utils'
 
 export default function validateInteger(
   schema: IntegerSchema,
   path: string,
 ): State {
-  const state = initState()
+  const state = validateSchema(
+    'integer',
+    schema,
+    path,
+    ['type'],
+    [
+      'exclusiveMaximum',
+      'exclusiveMinimum',
+      'maximum',
+      'minimum',
+      'multipleOf',
+    ],
+  )
+
   const {
     exclusiveMaximum,
     exclusiveMinimum,
@@ -16,6 +29,20 @@ export default function validateInteger(
     minimum,
     multipleOf,
   } = schema
+
+  if (exclusiveMaximum !== undefined && typeof exclusiveMaximum !== 'boolean') {
+    state.errors.push({
+      message: 'exclusiveMaximum must be a boolean',
+      path: `${path}.exclusiveMaximum`,
+    })
+  }
+
+  if (exclusiveMinimum !== undefined && typeof exclusiveMinimum !== 'boolean') {
+    state.errors.push({
+      message: 'exclusiveMinimum must be a boolean',
+      path: `${path}.exclusiveMinimum`,
+    })
+  }
 
   if (maximum !== undefined) {
     if (!isInteger(maximum)) {

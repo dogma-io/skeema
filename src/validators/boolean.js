@@ -1,11 +1,11 @@
 /** @flow */
 
 import type {BooleanSchema, State} from '../types'
-import {initState} from './state'
+import {validateSchema} from './utils'
 
 export default function validateBoolean(
   schema: BooleanSchema,
   path: string,
 ): State {
-  return initState()
+  return validateSchema('boolean', schema, path, ['type'])
 }

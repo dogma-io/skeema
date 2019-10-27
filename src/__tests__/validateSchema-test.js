@@ -34,7 +34,7 @@ const VALID_TESTS = [
   ['boolean type', {type: 'boolean'}],
   ['integer type', {type: 'integer'}],
   ['number type', {type: 'number'}],
-  ['object type', {type: 'object'}],
+  ['object type', {properties: {}, type: 'object'}],
   ['string type', {type: 'string'}],
 ]
 
@@ -44,7 +44,7 @@ describe('validateSchema()', () => {
   })
 
   itShouldInvalidate('unknown type', {type: 'foo'}, [
-    {message: 'Unknown type "foo"', path: '.type'},
+    {message: 'unknown type "foo"', path: '.type'},
   ])
 
   itShouldInvalidate(
@@ -121,4 +121,8 @@ describe('validateSchema()', () => {
       },
     ],
   )
+
+  itShouldInvalidate('object type without properties', {type: 'object'}, [
+    {message: 'required key "properties" is missing', path: ''},
+  ])
 })
