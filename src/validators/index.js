@@ -152,7 +152,7 @@ export function validateObject(schema: ObjectSchema, path: string): State {
 
   // TODO: validate maxProperties
   // TODO: validate minProperties
-  // TODO: validate patterProperties
+  // TODO: validate patternProperties
 
   if (properties !== undefined) {
     if (
