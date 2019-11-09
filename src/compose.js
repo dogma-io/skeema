@@ -1,6 +1,7 @@
 /** @flow */
 
 import validateBoolean from './validators/boolean'
+import validateConst from './validators/const'
 import {validateArray, validateObject} from './validators/index'
 import validateInteger from './validators/integer'
 import validateNull from './validators/null'
@@ -11,6 +12,7 @@ import type {
   AnyOfSchema,
   ArraySchema,
   BooleanSchema,
+  ConstSchema,
   IntegerSchema,
   NotSchema,
   NullSchema,
@@ -50,6 +52,11 @@ export function array(schema?: $Shape<ArraySchema>): ArraySchema {
 
 export function boolean(schema?: $Shape<BooleanSchema>): BooleanSchema {
   return error({type: 'boolean', ...schema}, validateBoolean)
+}
+
+// eslint-disable-next-line flowtype/no-weak-types
+export function constant(value: any): ConstSchema {
+  return error({const: value}, validateConst)
 }
 
 export function integer(schema?: $Shape<IntegerSchema>): IntegerSchema {

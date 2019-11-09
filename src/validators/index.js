@@ -2,6 +2,7 @@
 
 import type {ArraySchema, ObjectSchema, Schema, State} from '../types'
 import boolean from './boolean'
+import constant from './const'
 import integer from './integer'
 import nil from './null'
 import number from './number'
@@ -186,6 +187,7 @@ export function validateObject(schema: ObjectSchema, path: string): State {
 const VALIDATORS = {
   array: validateArray,
   boolean,
+  const: constant,
   integer,
   null: nil,
   number,
@@ -208,7 +210,10 @@ export default function validateSchema(
     return state
   }
 
-  if (schema.type in VALIDATORS) {
+  if (schema.type === undefined) {
+    // eslint-disable-next-line flowtype/no-weak-types
+    return VALIDATORS.const((schema: any), path)
+  } else if (schema.type in VALIDATORS) {
     // eslint-disable-next-line flowtype/no-weak-types
     return VALIDATORS[schema.type]((schema: any), path)
   }
@@ -216,7 +221,8 @@ export default function validateSchema(
   const state = initState()
 
   state.errors.push({
-    message: `unknown type "${schema.type}"`,
+    // eslint-disable-next-line flowtype/no-weak-types
+    message: `unknown type "${(schema: any).type}"`,
     path: `${path}.type`,
   })
 

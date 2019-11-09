@@ -20,7 +20,7 @@ export function mergeState(...states: Array<State>): State {
 }
 
 export function validateSchema(
-  type: string,
+  type?: string,
   schema: Object, // eslint-disable-line flowtype/no-weak-types
   path: string,
   requiredKeys: Array<string>,
@@ -46,7 +46,7 @@ export function validateSchema(
     }
   })
 
-  if (schema.type !== type) {
+  if (type !== undefined && schema.type !== type) {
     newState.errors.push({
       message: `type must be string literal "${type}"`,
       path: `${path}.type`,

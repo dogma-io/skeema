@@ -4,6 +4,11 @@ export type BooleanSchema = {|
   type: 'boolean',
 |}
 
+export type ConstSchema = {|
+  // eslint-disable-next-line flowtype/no-weak-types
+  const: any,
+|}
+
 export type IntegerSchema = {|
   exclusiveMaximum?: boolean,
   exclusiveMinimum?: boolean,
@@ -38,6 +43,7 @@ export type StringSchema = {|
 export type Schema =
   | ArraySchema // eslint-disable-line no-use-before-define
   | BooleanSchema
+  | ConstSchema
   | IntegerSchema
   | NullSchema
   | NumberSchema
