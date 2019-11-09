@@ -32,6 +32,7 @@ const VALID_TESTS = [
   ['array type', {type: 'array'}],
   ['array type with contains', {contains: {type: 'boolean'}, type: 'array'}],
   ['boolean type', {type: 'boolean'}],
+  ['const type', {const: 'foo'}],
   ['integer type', {type: 'integer'}],
   ['number type', {type: 'number'}],
   ['object type', {properties: {}, type: 'object'}],
