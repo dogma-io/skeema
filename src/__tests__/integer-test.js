@@ -34,6 +34,21 @@ describe('integer()', () => {
     })
   })
 
+  it('should return expected object when annotations provided', () => {
+    expect(
+      integer({
+        description: 'Some useful text',
+        examples: [1, 2],
+        title: 'Some useful title',
+      }),
+    ).toEqual({
+      description: 'Some useful text',
+      examples: [1, 2],
+      title: 'Some useful title',
+      type: 'integer',
+    })
+  })
+
   itShouldThrow(
     'when type is an array',
     ({type: []}: any),
@@ -74,6 +89,66 @@ describe('integer()', () => {
     'when unknown properties included',
     ({foo: 'bar'}: any),
     'unknown key "foo"',
+  )
+
+  itShouldThrow(
+    'when description is an array',
+    ({description: []}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is a boolean',
+    ({description: true}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is null',
+    ({description: null}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is a number',
+    ({description: 1}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is an object',
+    ({description: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when examples is a boolean',
+    ({examples: true}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is null',
+    ({examples: null}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is a number',
+    ({examples: 1}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is an object',
+    ({examples: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is a string',
+    ({examples: {}}: any),
+    'examples must be an array',
   )
 
   itShouldThrow(
@@ -266,5 +341,35 @@ describe('integer()', () => {
     'when multipleOf is a non-integer number',
     {multipleOf: 1.2},
     'multipleOf must be a positive integer',
+  )
+
+  itShouldThrow(
+    'when title is an array',
+    ({title: []}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is a boolean',
+    ({title: true}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is null',
+    ({title: null}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is a number',
+    ({title: 1}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is an object',
+    ({title: {}}: any),
+    'title must be a string',
   )
 })

@@ -31,6 +31,23 @@ describe('object()', () => {
     })
   })
 
+  it('should return expected object when annotations provided', () => {
+    expect(
+      object({
+        description: 'Some useful text',
+        examples: [{}, {foo: 'bar'}],
+        properties: {},
+        title: 'Some useful title',
+      }),
+    ).toEqual({
+      description: 'Some useful text',
+      examples: [{}, {foo: 'bar'}],
+      properties: {},
+      title: 'Some useful title',
+      type: 'object',
+    })
+  })
+
   itShouldThrow(
     'when type is an array',
     ({properties: {}, type: []}: any),
@@ -104,6 +121,66 @@ describe('object()', () => {
   )
 
   itShouldThrow(
+    'when description is an array',
+    ({description: [], properties: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is a boolean',
+    ({description: true, properties: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is null',
+    ({description: null, properties: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is a number',
+    ({description: 1, properties: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when description is an object',
+    ({description: {}, properties: {}}: any),
+    'description must be a string',
+  )
+
+  itShouldThrow(
+    'when examples is a boolean',
+    ({examples: true, properties: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is null',
+    ({examples: null, properties: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is a number',
+    ({examples: 1, properties: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is an object',
+    ({examples: {}, properties: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
+    'when examples is a string',
+    ({examples: {}, properties: {}}: any),
+    'examples must be an array',
+  )
+
+  itShouldThrow(
     'when properties is an array',
     ({properties: []}: any),
     'properties must be an object',
@@ -137,5 +214,35 @@ describe('object()', () => {
     'when property is not a valid schema',
     ({properties: {foo: 'bar'}}: any),
     'schema must be an Object',
+  )
+
+  itShouldThrow(
+    'when title is an array',
+    ({properties: {}, title: []}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is a boolean',
+    ({properties: {}, title: true}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is null',
+    ({properties: {}, title: null}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is a number',
+    ({properties: {}, title: 1}: any),
+    'title must be a string',
+  )
+
+  itShouldThrow(
+    'when title is an object',
+    ({properties: {}, title: {}}: any),
+    'title must be a string',
   )
 })
