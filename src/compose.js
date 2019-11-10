@@ -1,10 +1,14 @@
 /** @flow */
 
+import validateAllOf from './validators/allOf'
+import validateAnyOf from './validators/anyOf'
 import validateBoolean from './validators/boolean'
 import validateConst from './validators/const'
 import {validateArray, validateObject} from './validators/index'
 import validateInteger from './validators/integer'
+import validateNot from './validators/not'
 import validateNull from './validators/null'
+import validateOneOf from './validators/oneOf'
 import validateNumber from './validators/number'
 import validateString from './validators/string'
 import type {
@@ -38,12 +42,18 @@ function error<T>(schema: T, validator: (schema: T, path: string) => State): T {
   return schema
 }
 
-export function allOf(...schemas: Array<Schema>): AllOfSchema {
-  return {allOf: schemas}
+export function allOf(
+  schemas?: Array<Schema>,
+  rest?: $Shape<$Rest<AllOfSchema, {|allOf: Array<Schema>|}>>,
+): AllOfSchema {
+  return error({...rest, allOf: schemas || []}, validateAllOf)
 }
 
-export function anyOf(...schemas: Array<Schema>): AnyOfSchema {
-  return {anyOf: schemas}
+export function anyOf(
+  schemas?: Array<Schema>,
+  rest?: $Shape<$Rest<AnyOfSchema, {|anyOf: Array<Schema>|}>>,
+): AnyOfSchema {
+  return error({...rest, anyOf: schemas || []}, validateAnyOf)
 }
 
 export function array(schema?: $Shape<ArraySchema>): ArraySchema {
@@ -54,10 +64,14 @@ export function boolean(schema?: $Shape<BooleanSchema>): BooleanSchema {
   return error({type: 'boolean', ...schema}, validateBoolean)
 }
 
-// eslint-disable-next-line flowtype/no-weak-types
-export function constant(value: any): ConstSchema {
-  return error({const: value}, validateConst)
+/* eslint-disable flowtype/no-weak-types */
+export function constant(
+  value: any,
+  rest?: $Shape<$Rest<ConstSchema, {|const: any|}>>,
+): ConstSchema {
+  return error({...rest, const: value}, validateConst)
 }
+/* eslint-enable flowtype/no-weak-types */
 
 export function integer(schema?: $Shape<IntegerSchema>): IntegerSchema {
   return error({type: 'integer', ...schema}, validateInteger)
@@ -67,16 +81,22 @@ export function nil(schema?: $Shape<NullSchema>): NullSchema {
   return error({type: 'null', ...schema}, validateNull)
 }
 
-export function not(schema: Schema): NotSchema {
-  return {not: schema}
+export function not(
+  schema: Schema,
+  rest?: $Shape<$Rest<NotSchema, {|not: Schema|}>>,
+): NotSchema {
+  return error({...rest, not: schema}, validateNot)
 }
 
 export function number(schema?: $Shape<NumberSchema>): NumberSchema {
   return error({type: 'number', ...schema}, validateNumber)
 }
 
-export function oneOf(...schemas: Array<Schema>): OneOfSchema {
-  return {oneOf: schemas}
+export function oneOf(
+  schemas?: Array<Schema>,
+  rest?: $Shape<$Rest<OneOfSchema, {|oneOf: Array<Schema>|}>>,
+): OneOfSchema {
+  return error({...rest, oneOf: schemas || []}, validateOneOf)
 }
 
 export function object(
