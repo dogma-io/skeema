@@ -41,6 +41,43 @@ describe('array()', () => {
     })
   })
 
+  it('should return expected object when $comment is provided', () => {
+    expect(array({$comment: 'Foo bar'})).toEqual({
+      $comment: 'Foo bar',
+      type: 'array',
+    })
+  })
+
+  itShouldThrow(
+    'when $comment is an array',
+    ({$comment: []}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a boolean',
+    ({$comment: true}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is null',
+    ({$comment: null}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a number',
+    ({$comment: 1}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is an object',
+    ({$comment: {}}: any),
+    '$comment must be a string',
+  )
+
   itShouldThrow(
     'when type is an array',
     ({type: []}: any),

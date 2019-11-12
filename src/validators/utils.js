@@ -27,9 +27,12 @@ export function validateSchema(
   allowedKeys?: Array<string> = [],
 ): State {
   const newState = initState()
-  const allAllowedKeys = ['description', 'examples', 'title'].concat(
-    allowedKeys,
-  )
+  const allAllowedKeys = [
+    '$comment',
+    'description',
+    'examples',
+    'title',
+  ].concat(allowedKeys)
 
   requiredKeys.forEach((key: string) => {
     if (!(key in schema)) {
@@ -56,7 +59,14 @@ export function validateSchema(
     })
   }
 
-  const {description, examples, title} = schema
+  const {$comment, description, examples, title} = schema
+
+  if ($comment !== undefined && typeof $comment !== 'string') {
+    newState.errors.push({
+      message: '$comment must be a string',
+      path: `${path}.$comment`,
+    })
+  }
 
   if (description !== undefined && typeof description !== 'string') {
     newState.errors.push({

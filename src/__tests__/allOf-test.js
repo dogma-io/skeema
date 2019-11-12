@@ -40,6 +40,48 @@ describe('allOf()', () => {
     })
   })
 
+  it('should return expected object when $comment is provided', () => {
+    expect(allOf([boolean()], {$comment: 'Foo bar'})).toEqual({
+      $comment: 'Foo bar',
+      allOf: [{type: 'boolean'}],
+    })
+  })
+
+  itShouldThrow(
+    'when $comment is an array',
+    [boolean()],
+    ({$comment: []}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a boolean',
+    [boolean()],
+    ({$comment: true}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is null',
+    [boolean()],
+    ({$comment: null}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a number',
+    [boolean()],
+    ({$comment: 1}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is an object',
+    [boolean()],
+    ({$comment: {}}: any),
+    '$comment must be a string',
+  )
+
   itShouldThrow(
     'when allOf is a boolean',
     (true: any),
