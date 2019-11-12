@@ -15,6 +15,58 @@ describe('nil()', () => {
     expect(nil()).toEqual({type: 'null'})
   })
 
+  it('should return expected object when annotations provided', () => {
+    expect(
+      nil({
+        description: 'Some useful text',
+        examples: [null],
+        title: 'Some useful title',
+      }),
+    ).toEqual({
+      description: 'Some useful text',
+      examples: [null],
+      title: 'Some useful title',
+      type: 'null',
+    })
+  })
+
+  it('should return expected object when $comment is provided', () => {
+    expect(nil({$comment: 'Foo bar'})).toEqual({
+      $comment: 'Foo bar',
+      type: 'null',
+    })
+  })
+
+  itShouldThrow(
+    'when $comment is an array',
+    ({$comment: []}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a boolean',
+    ({$comment: true}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is null',
+    ({$comment: null}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a number',
+    ({$comment: 1}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is an object',
+    ({$comment: {}}: any),
+    '$comment must be a string',
+  )
+
   itShouldThrow(
     'when type is an array',
     ({type: []}: any),

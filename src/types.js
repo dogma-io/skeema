@@ -7,19 +7,26 @@ type Annotations = {|
   title?: string,
 |}
 
+type Comments = {|
+  $comment?: string
+|}
+
 export type BooleanSchema = {|
   ...Annotations,
+  ...Comments,
   type: 'boolean',
 |}
 
 export type ConstSchema = {|
   ...Annotations,
+  ...Comments,
   // eslint-disable-next-line flowtype/no-weak-types
   const: any,
 |}
 
 export type IntegerSchema = {|
   ...Annotations,
+  ...Comments,
   exclusiveMaximum?: boolean,
   exclusiveMinimum?: boolean,
   maximum?: number,
@@ -30,11 +37,13 @@ export type IntegerSchema = {|
 
 export type NullSchema = {|
   ...Annotations,
+  ...Comments,
   type: 'null',
 |}
 
 export type NumberSchema = {|
   ...Annotations,
+  ...Comments,
   exclusiveMaximum?: boolean,
   exclusiveMinimum?: boolean,
   maximum?: number,
@@ -45,6 +54,7 @@ export type NumberSchema = {|
 
 export type StringSchema = {|
   ...Annotations,
+  ...Comments,
   enum?: Array<string>,
   format?: string,
   maxLength?: number,
@@ -65,26 +75,31 @@ export type Schema =
 
 export type AllOfSchema = {|
   ...Annotations,
+  ...Comments,
   allOf: Array<Schema>,
 |}
 
 export type AnyOfSchema = {|
   ...Annotations,
+  ...Comments,
   anyOf: Array<Schema>,
 |}
 
 export type NotSchema = {|
   ...Annotations,
+  ...Comments,
   not: Schema,
 |}
 
 export type OneOfSchema = {|
   ...Annotations,
+  ...Comments,
   oneOf: Array<Schema>,
 |}
 
 export type ArraySchema = {|
   ...Annotations,
+  ...Comments,
   additionalItems?: boolean | Schema,
   contains?: Schema,
   items?: Schema | Array<Schema>,
@@ -97,6 +112,7 @@ export type ArraySchema = {|
 // TODO: add support for property dependencies and schema dependencies
 export type ObjectSchema = {|
   ...Annotations,
+  ...Comments,
   additionalProperties?: boolean | Schema,
   maxProperties?: number,
   minProperties?: number,

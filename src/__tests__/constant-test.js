@@ -39,9 +39,61 @@ describe('constant()', () => {
     expect(constant({foo: 'bar'})).toEqual({const: {foo: 'bar'}})
   })
 
+  it('should return expected object when annotations provided', () => {
+    expect(
+      constant('foo', {
+        description: 'Some useful text',
+        examples: ['foo'],
+        title: 'Some useful title',
+      }),
+    ).toEqual({
+      const: 'foo',
+      description: 'Some useful text',
+      examples: ['foo'],
+      title: 'Some useful title',
+    })
+  })
+
   it('should return expected object when called with string value', () => {
     expect(constant('foo')).toEqual({const: 'foo'})
   })
+
+  it('should return expected object when $comment is provided', () => {
+    expect(constant('foo', {$comment: 'Foo bar'})).toEqual({
+      $comment: 'Foo bar',
+      const: 'foo',
+    })
+  })
+
+  itShouldThrow(
+    'when $comment is an array',
+    ({$comment: []}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a boolean',
+    ({$comment: true}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is null',
+    ({$comment: null}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is a number',
+    ({$comment: 1}: any),
+    '$comment must be a string',
+  )
+
+  itShouldThrow(
+    'when $comment is an object',
+    ({$comment: {}}: any),
+    '$comment must be a string',
+  )
 
   itShouldThrow(
     'when description is an array',
