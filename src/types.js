@@ -8,7 +8,7 @@ type Annotations = {|
 |}
 
 type Comments = {|
-  $comment?: string
+  $comment?: string,
 |}
 
 export type BooleanSchema = {|
