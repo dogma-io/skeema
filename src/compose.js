@@ -21,8 +21,8 @@ import type {
   NotSchema,
   NullSchema,
   NumberSchema,
-  OneOfSchema,
   ObjectSchema,
+  OneOfSchema,
   Schema,
   StringSchema,
   State,
@@ -92,17 +92,17 @@ export function number(schema?: $Shape<NumberSchema>): NumberSchema {
   return error({type: 'number', ...schema}, validateNumber)
 }
 
+export function object(
+  schema?: $Diff<ObjectSchema, {|type: 'object'|}>,
+): ObjectSchema {
+  return error({type: 'object', ...schema}, validateObject)
+}
+
 export function oneOf(
   schemas?: Array<Schema>,
   rest?: $Shape<$Rest<OneOfSchema, {|oneOf: Array<Schema>|}>>,
 ): OneOfSchema {
   return error({...rest, oneOf: schemas || []}, validateOneOf)
-}
-
-export function object(
-  schema?: $Diff<ObjectSchema, {|type: 'object'|}>,
-): ObjectSchema {
-  return error({type: 'object', ...schema}, validateObject)
 }
 
 export function string(schema?: $Shape<StringSchema>): StringSchema {
