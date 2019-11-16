@@ -32,6 +32,25 @@ First if you are unfamiliar with JSON schema you should [read up on it first][js
 
 The following methods are meant to help you build a schema, with built in Flow types and runtime validation. If you use Flow for type checking then Flow should catch errors for you, otherwise you'll still get runtime errors when these methods are executed.
 
+Here is an example of how to import all of the following methods:
+
+```js
+import {
+  allOf,
+  anyOf,
+  array,
+  boolean,
+  constant,
+  integer,
+  nil,
+  not,
+  number,
+  object,
+  oneOf,
+  string
+} from 'skeema'
+```
+
 #### `allOf(schemas, rest)`
 
 `schemas` is an optional argument which should be an array of schemas.
@@ -208,6 +227,33 @@ The following methods are meant to help you build a schema, with built in Flow t
 | `pattern`     | No       | `string`        | A regular expression pattern the string should match        |
 | `title`       | No       | `string`        | Short explanation about purpose of data described by schema |
 | `type`        | No       | `"string"`      | This is added automatically but can still be included       |
+
+### Validation
+
+In you'd like to validate a JSON schema, whether it was created via skeema's helper methods or is just purely a JSON object, you can use the `validateSchema` export. The rsult is an object containg both `errors` and `warnings` attributes, which are both arrays of objects that contain the attributes `message` and `path`.
+
+#### Example
+
+```js
+import {integer, object, string, validateSchema} from 'skeema'
+
+const schema = object({
+  properties: {
+    bar: string(),
+    foo: integer(),
+  },
+})
+
+const result = validateSchema(schema)
+
+result.errors.forEach(({message, path}) => {
+  console.error(`${path}: ${message}`)
+})
+
+result.warnings.forEach(({message, path}) => {
+  console.warn(`${path}: ${message}`)
+})
+```
 
 ## Code of Conduct
 
