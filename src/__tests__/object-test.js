@@ -11,6 +11,10 @@ function itShouldThrow(desc: string, input: *, errorMessage: string) {
 }
 
 describe('object()', () => {
+  it('should return expected object when called with no arguments', () => {
+    expect(object()).toEqual({properties: {}, type: 'object'})
+  })
+
   it('should return expected object when called with empty properties', () => {
     expect(object({properties: {}})).toEqual({properties: {}, type: 'object'})
   })
