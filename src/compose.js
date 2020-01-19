@@ -95,7 +95,10 @@ export function number(schema?: $Shape<NumberSchema>): NumberSchema {
 export function object(
   schema?: $Diff<ObjectSchema, {|type: 'object'|}>,
 ): ObjectSchema {
-  return error({type: 'object', ...schema}, validateObject)
+  return error(
+    {type: 'object', ...(schema || {properties: {}})},
+    validateObject,
+  )
 }
 
 export function oneOf(
